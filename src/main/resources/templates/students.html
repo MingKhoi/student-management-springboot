@@ -37,7 +37,15 @@
 
 <body>
     <h1>Danh Sach Sinh Vien (SSR)</h1>
-    <form action="/students" method="get">
+
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <div class="header-actions">
+        <a href="/students/new" class="btn btn-success">Thêm mới</a>
+    </div>
+
+    <form class="search-form" action="/students" method="get">
         <input type="text" name="keyword" placeholder="Nhap ten ...">
         <button type="submit">Tim</button>
     </form>
@@ -58,6 +66,13 @@
                 <td th:text="${student.name}">Ten Mau</td>
                 <td th:text="${student.email}">Email Mau</td>
                 <td th:text="${student.age}">0</td>
+            <td>
+                <a th:href="@{/students/{id}(id=${student.id})" class="btn btn-primary">Xem chi tiết</a>
+                <a th:href="@{/students/{id}/edit(id=${student.id})" class="btn btn-primary">Chỉnh sửa</a>
+                <form th:action="@{/students/{id}/delete(id=${student.id})}" method="post" style="display: inline;" onsubmit="return confirm('Bạn có chắc chắn?');">
+                    <button type="submit" class="btn btn-danger">Xóa</button>
+                </form>
+            </td>
             </tr>
         </tbody>
     </table>

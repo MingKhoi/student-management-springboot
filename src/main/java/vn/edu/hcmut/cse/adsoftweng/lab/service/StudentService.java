@@ -28,4 +28,16 @@ public class StudentService {
     public Student getById(String id) {
         return repository.findById(id).orElse(null);
     }
+
+    public Student save(Student student) {
+        return repository.save(student);
+    }
+
+    public void deleteById(String id) {
+        repository.deleteById(id);
+    }
+
+    public boolean existsById(String id) {
+        return repository.existsById(id);
+    }
 }

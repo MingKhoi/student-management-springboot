@@ -9,35 +9,16 @@
 
 Web Service đã được deploy tại: https://student-management-springboot-qaaq.onrender.com/students
 
-## 3. Kiến trúc hệ thống
+## 3. Hướng dẫn chạy dự án (Local)
 
-Ứng dụng được xây dựng theo mô hình **Layered Architecture**:
-
-- Controller Layer (Presentation)
-- Service Layer (Business Logic)
-- Repository Layer (Data Access)
-- Database Layer (PostgreSQL)
-
-### Công nghệ sử dụng
-
-- Java 17
-- Spring Boot
-- Spring Data JPA
-- Thymeleaf (Server-Side Rendering)
-- PostgreSQL (Neon)
-- Render (Deploy Cloud)
-
-
-## 4. Hướng dẫn chạy dự án (Local)
-
-### 4.1 Clone project
+### 3.1 Clone project
 
 ```bash
 git clone <repo-link>
 cd student-management
 ```
 
-### 4.2 Tạo file `.env`
+### 3.2 Tạo file `.env`
 
 Tạo file `.env` tại thư mục gốc project:
 
@@ -49,7 +30,7 @@ Lưu ý:
 - Không commit file `.env` lên Git.
 - Mỗi thành viên tự cấu hình theo môi trường máy cá nhân.
 
-### 4.3 Chạy ứng dụng
+### 3.3 Chạy ứng dụng
 
 ```bash
 ./mvnw spring-boot:run
@@ -61,7 +42,7 @@ Truy cập:
 http://localhost:8080/students
 ```
 
-# 5. Trả lời câu hỏi lý thuyết
+# 4. Trả lời câu hỏi lý thuyết
 
 ## Lab 1
 ### Câu 2: Ràng buộc Khóa Chính (Primary Key)
@@ -97,7 +78,7 @@ Bài học:
 - Cần validate dữ liệu ở Service Layer.
 - Nên thêm ràng buộc `NOT NULL` trong Database để đảm bảo tính chặt chẽ.
 
-## 7. Screenshot Lab 4
+## 5. Screenshot Lab 4
 ### Trang Danh Sách
 ![List View](images/list.png)
 

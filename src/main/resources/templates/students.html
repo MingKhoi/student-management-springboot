@@ -1,81 +1,147 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"> <!-- Khai bao namespace de dung th:* -->
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <title>Danh Sach Sinh Vien</title>
-    <!-- CSS don gian -->
+
     <style>
         body {
-            font-family: sans-serif;
-            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            padding: 40px;
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        form input {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+
+        form button {
+            padding: 8px 14px;
+            border-radius: 6px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        form button:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-success {
+            padding: 8px 14px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+
+        .btn-success:hover {
+            background-color: #1e7e34;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th,
-        td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
         }
 
         th {
-            background-color: #f2f2f2;
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
         }
 
         .text-danger {
-            color: red;
-            font-weight: bold;
+            background-color: #ffe5e5;
+        }
+
+        .action-link {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .action-link:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 
 <body>
-    <h1>Danh Sach Sinh Vien (SSR)</h1>
+    <h1>Danh Sách Sinh Viên</h1>
 
-    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
-    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+    <div class="container">
+        <div class="top-bar">
+            <form action="/students" method="get">
+                <input type="text" name="keyword" placeholder="Nhập tên...">
+                <button type="submit">Tìm</button>
+            </form>
 
-    <div class="header-actions">
-        <a href="/students/new" class="btn btn-success">Thêm mới</a>
+            <a href="/students/new" class="btn-success">+ Thêm mới</a>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Họ và Tên</th>
+                    <th>Email</th>
+                    <th>Tuổi</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="student : ${dsSinhVien}" th:class="${student.age < 18} ? 'text-danger' : ''">
+
+                    <td th:text="${student.id}"></td>
+                    <td th:text="${student.name}"></td>
+                    <td th:text="${student.email}"></td>
+                    <td th:text="${student.age}"></td>
+                    <td>
+                        <a th:href="@{/students/{id}(id=${student.id})}" class="action-link">Xem chi tiết</a>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
     </div>
 
-    <form class="search-form" action="/students" method="get">
-        <input type="text" name="keyword" placeholder="Nhap ten ...">
-        <button type="submit">Tim</button>
-    </form>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Ho va Ten</th>
-                <th>Email</th>
-                <th>Tuoi</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Cu phap Thymeleaf: Duyet qua danh sach "dsSinhVien" -->
-            <!-- th:each="bien_tam : ${key_trong_model}" -->
-            <tr th:each="student : ${dsSinhVien}" th:class="${student.age < 18} ? 'text-danger' : ''">
-                <td th:text="${student.id}">ID Mau</td>
-                <td th:text="${student.name}">Ten Mau</td>
-                <td th:text="${student.email}">Email Mau</td>
-                <td th:text="${student.age}">0</td>
-            <td>
-                <a th:href="@{/students/{id}(id=${student.id})" class="btn btn-primary">Xem chi tiết</a>
-                <a th:href="@{/students/{id}/edit(id=${student.id})" class="btn btn-primary">Chỉnh sửa</a>
-                <form th:action="@{/students/{id}/delete(id=${student.id})}" method="post" style="display: inline;" onsubmit="return confirm('Bạn có chắc chắn?');">
-                    <button type="submit" class="btn btn-danger">Xóa</button>
-                </form>
-            </td>
-            </tr>
-        </tbody>
-    </table>
 </body>
 
 </html>

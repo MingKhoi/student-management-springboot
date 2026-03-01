@@ -25,7 +25,7 @@ public class StudentService {
                 .toList();
     }
 
-    public Student getById(String id) {
+    public Student getById(Long id) {
         return repository.findById(id).orElse(null);
     }
 
@@ -33,11 +33,11 @@ public class StudentService {
         return repository.save(student);
     }
 
-    public void deleteById(String id) {
+    public void deleteById(Long id) {
         repository.deleteById(id);
     }
 
-    public boolean existsById(String id) {
+    public boolean existsById(Long id) {
         return repository.existsById(id);
     }
 }

@@ -25,7 +25,7 @@ public class StudentController {
 
     // 2. API Lay chi tiet: GET http://localhost:8080/api/students/{id}
     @GetMapping("/{id}")
-    public Student getStudentById(@PathVariable String id) {
+    public Student getStudentById(@PathVariable Long id) {
         // Luu y: Can them method getById trong Service truoc
         return service.getById(id);
     }

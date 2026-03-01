@@ -4,9 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller; // Luu y: su dung @Controller, KHONG dung @RestController
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import vn.edu.hcmut.cse.adsoftweng.lab.service.StudentService;
 import vn.edu.hcmut.cse.adsoftweng.lab.entity.Student;
 import java.util.List;
@@ -38,7 +43,7 @@ public class StudentWebController {
     }
 
     @GetMapping("/{id}")
-    public String getStudentDetail(@PathVariable String id, Model model) {
+    public String getStudentDetail(@PathVariable Long id, Model model) {
         Student student = service.getById(id);
         if (student == null) {
             return "redirect:/students";
@@ -54,36 +59,38 @@ public class StudentWebController {
         return "student-form";
     }
 
-    @GetMapping("{id}/edit")
-    public String shoEditForm(@PathVariable String id, Model model) {
+    @GetMapping("edit/{id}")
+    public String shoEditForm(@PathVariable Long id, Model model) {
         Student student = service.getById(id);
         if (student == null) {
             return "redirect:/students";
         }
         model.addAttribute("student", student);
-        model.addAttribute("isEdit", student);
         return "student-form";
     }
 
-    @PostMapping
-    public String addStudent(@ModelAttribute Student student, BindingResult result, RedirectAttributes redirectAttributes) {
-        if (result.hasErrors()) {
-            return "student-form";
-        }
+    // @PostMapping
+    // public String addStudent(@ModelAttribute Student student, BindingResult
+    // result,
+    // RedirectAttributes redirectAttributes) {
+    // if (result.hasErrors()) {
+    // return "student-form";
+    // }
 
-        if (service.existsById(student.getId())) {
-            redirectAttributes.addFlashAttribute("error", "ID sinh viên đã tồn tại!");
-            return "redirect:/students";
-        }
+    // if (service.existsById(student.getId())) {
+    // redirectAttributes.addFlashAttribute("error", "ID sinh viên đã tồn tại!");
+    // return "redirect:/students";
+    // }
 
-        service.save(student);
-        redirectAttributes.addFlashAttribute("success", "Thêm sinh viên thành công!");
-        return "redirect:/students";
-    }
+    // service.save(student);
+    // redirectAttributes.addFlashAttribute("success", "Thêm sinh viên thành
+    // công!");
+    // return "redirect:/students";
+    // }
 
     @PostMapping("/{id}/update")
-    public String updateStudent(@PathVariable String id, @ModelAttribute Student student,
-                                BindingResult result, RedirectAttributes redirectAttributes) {
+    public String updateStudent(@PathVariable Long id, @ModelAttribute Student student,
+            BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             return "student-form";
         }
@@ -103,16 +110,21 @@ public class StudentWebController {
         return "redirect:/students";
     }
 
-    @PostMapping("{id}/delete")
-    public String deleteStudent(@PathVariable String id, RedirectAttributes redirectAttributes) {
+    @PostMapping("delete/{id}")
+    public String deleteStudent(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         Student student = service.getById(id);
         if (student == null) {
-            redirectAttributes.addFlashAttribute("error", "Không tìm thấy sinh viên!");
+            // redirectAttributes.addFlashAttribute("error", "Không tìm thấy sinh viên!");
             return "redirect:/students";
         }
         service.deleteById(id);
-        redirectAttributes.addFlashAttribute("success", "Xóa sinh viên thành công!");
+        // redirectAttributes.addFlashAttribute("success", "Xóa sinh viên thành công!");
         return "redirect:/students";
     }
 
+    @PostMapping("/save")
+    public String save(@ModelAttribute Student student) {
+        service.save(student);
+        return "redirect:/students";
+    }
 }
